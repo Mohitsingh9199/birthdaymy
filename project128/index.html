@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="hi-Latn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Ek surprise tumhare liye 💖</title>
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Ek surprise tumhare liye 💖" />
+  <meta property="og:description" content="Kuch special hai — sirf tumhare liye banaya hai 🎂🌹" />
+  <meta property="og:image" content="assets/og-thumbnail.jpg" />
+  <meta property="og:type" content="website" />
+  <meta name="description" content="A special birthday surprise made with love 💖" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ═══════ MUSIC CONTROLS ═══════ -->
+  <button id="musicToggle" class="music-toggle" aria-label="Toggle music">
+    <span class="music-icon">🔇</span>
+  </button>
+
+  <!-- ═══════ PROGRESS INDICATOR ═══════ -->
+  <div id="progressBar" class="progress-bar" aria-label="Progress">
+    <span class="progress-heart" data-page="1">♡</span>
+    <span class="progress-heart" data-page="2">♡</span>
+    <span class="progress-heart" data-page="3">♡</span>
+    <span class="progress-heart" data-page="4">♡</span>
+    <span class="progress-heart" data-page="5">♡</span>
+    <span class="progress-heart" data-page="6">♡</span>
+    <span class="progress-heart" data-page="7">♡</span>
+  </div>
+
+  <!-- ═══════ SPARKLE/HEART BURST CANVAS ═══════ -->
+  <canvas id="sparkleCanvas" class="sparkle-canvas"></canvas>
+  <!-- ═══════ BACKGROUND PARTICLES CANVAS ═══════ -->
+  <canvas id="bgCanvas" class="bg-canvas"></canvas>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- PAGE 0: LOCK SCREEN                                 -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section id="page0" class="page page-active page-lock">
+    <div class="page-inner">
+      <div class="glass-card" style="text-align: center; gap: 20px;" id="lockCard">
+        <div style="font-size: 60px; margin-bottom: 10px; animation: heartGlow 2s infinite, emojiFloat 3s infinite;">🔒</div>
+        <h2 class="section-title">Enter Password</h2>
+        <input type="text" id="lockInput" class="lock-input" placeholder="Password" />
+        <p class="lock-hint" style="color: rgba(255,255,255,0.6); font-size: 14px; margin-top: 10px;">Hint: mera birthday</p>
+        <p id="lockError" class="lock-error" style="color: #ff4d4d; font-size: 14px; margin-top: 10px; min-height: 20px;"></p>
+        <button class="btn btn-primary" id="lockBtn" style="margin-top: 20px;">Unlock 🔓</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- PAGE 1: WELCOME                                     -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section id="page1" class="page page-welcome">
+    <div class="starry-bg" id="starryBg"></div>
+    <div class="welcome-content">
+      <div class="glowing-heart" id="glowingHeart">
+        <span>💖</span>
+      </div>
+      <div class="gift-box" id="giftBox">
+        <div class="gift-lid" id="giftLid">🎁</div>
+        <div class="gift-light"></div>
+      </div>
+      <h1 class="welcome-text" id="welcomeText"></h1>
+      <button class="btn btn-primary pulse-btn" id="startBtn">
+        <span id="startBtnText"></span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- PAGE 2: LOVE MESSAGES                               -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section id="page2" class="page page-messages">
+    <div class="page-inner">
+      <h2 class="section-title" id="messagesTitle"></h2>
+      <div class="message-card glass-card" id="messageCard">
+        <div class="message-emoji" id="messageEmoji"></div>
+        <p class="message-text" id="messageText"></p>
+        <div class="message-counter" id="messageCounter"></div>
+      </div>
+      <button class="btn btn-secondary" id="nextMessageBtn"></button>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- PAGE 3: CATCH THE HEARTS GAME                       -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section id="page3" class="page page-catch-game">
+    <div class="page-inner">
+      <h2 class="section-title" id="catchTitle"></h2>
+      <p class="game-instruction" id="catchInstruction"></p>
+      <div class="catch-score" id="catchScore">💖 0 / 15</div>
+      <canvas id="catchCanvas" class="catch-canvas"></canvas>
+      <div class="catch-win-overlay" id="catchWinOverlay" style="display:none;">
+        <div class="glass-card win-card">
+          <h2 id="catchWinTitle"></h2>
+          <button class="btn btn-primary" id="catchWinBtn"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- PAGE 4: QUIZ                                        -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section id="page4" class="page page-quiz">
+    <div class="page-inner">
+      <h2 class="section-title" id="quizTitle"></h2>
+      <div class="quiz-container" id="quizContainer">
+        <div class="quiz-progress" id="quizProgress"></div>
+        <div class="glass-card quiz-card" id="quizCard">
+          <p class="quiz-question" id="quizQuestion"></p>
+          <div class="quiz-options" id="quizOptions"></div>
+        </div>
+        <div class="quiz-feedback" id="quizFeedback" style="display:none;">
+          <p id="quizFeedbackText"></p>
+          <button class="btn btn-secondary" id="quizNextBtn">Agle question ➡️</button>
+        </div>
+      </div>
+      <div class="quiz-result" id="quizResult" style="display:none;">
+        <div class="glass-card result-card">
+          <div class="crown-emoji">👑</div>
+          <h2 id="quizResultTitle"></h2>
+          <p id="quizResultMessage"></p>
+          <p class="quiz-score-display" id="quizScoreDisplay"></p>
+          <button class="btn btn-primary" id="quizNextPageBtn"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- PAGE 5: MEMORY MATCH GAME                          -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section id="page5" class="page page-memory">
+    <div class="page-inner">
+      <h2 class="section-title" id="memoryTitle"></h2>
+      <p class="game-instruction" id="memoryInstruction"></p>
+      <div class="memory-grid" id="memoryGrid"></div>
+      <div class="memory-message-popup" id="memoryPopup" style="display:none;">
+        <div class="glass-card">
+          <p id="memoryPopupText"></p>
+          <button class="btn btn-secondary" id="memoryPopupClose">Continue 💕</button>
+        </div>
+      </div>
+      <div class="memory-win-overlay" id="memoryWinOverlay" style="display:none;">
+        <div class="glass-card win-card">
+          <h2 id="memoryWinTitle"></h2>
+          <button class="btn btn-primary" id="memoryWinBtn"></button>
+        </div>
+      </div>
+      <button class="btn btn-ghost" id="memorySkipBtn"></button>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- PAGE 6: COUNTDOWN                                   -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section id="page6" class="page page-countdown">
+    <div class="countdown-content">
+      <p class="countdown-intro" id="countdownText"></p>
+      <div class="countdown-number" id="countdownNumber"></div>
+      <div class="heartbeat-ring" id="heartbeatRing"></div>
+    </div>
+    <canvas id="fireworksCanvas" class="fireworks-canvas"></canvas>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- PAGE 7: FINAL BIRTHDAY PAGE                        -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section id="page7" class="page page-final">
+    <canvas id="finalCanvas" class="final-canvas"></canvas>
+    <div class="final-content">
+      <h1 class="birthday-heading shimmer-text" id="birthdayHeading"></h1>
+
+      <!-- Birthday Cake -->
+      <div class="cake-container" id="cakeContainer">
+        <div class="cake">
+          <div class="candle-row">
+            <div class="candle lit"><div class="flame"></div></div>
+            <div class="candle lit"><div class="flame"></div></div>
+            <div class="candle lit"><div class="flame"></div></div>
+            <div class="candle lit"><div class="flame"></div></div>
+            <div class="candle lit"><div class="flame"></div></div>
+          </div>
+          <div class="cake-top"></div>
+          <div class="cake-middle"></div>
+          <div class="cake-bottom"></div>
+        </div>
+        <p class="blow-text" id="blowText"></p>
+      </div>
+    </div> <!-- Close first final-content -->
+
+    <!-- Photo Marquee — Two rows moving in opposite directions -->
+    <div class="marquee-section" id="marqueeSection">
+      <!-- Row 1: moves LEFT (←) -->
+      <div class="marquee-row" id="marqueeRow1">
+        <div class="marquee-track marquee-left" id="marqueeTrack1">
+          <!-- Images injected by JS (duplicated for seamless loop) -->
+        </div>
+      </div>
+      <!-- Row 2: moves RIGHT (→) -->
+      <div class="marquee-row" id="marqueeRow2">
+        <div class="marquee-track marquee-right" id="marqueeTrack2">
+          <!-- Images injected by JS (duplicated for seamless loop) -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Re-open final-content for the bottom text -->
+    <div class="final-content" style="padding-bottom: 60px;">
+      <!-- Love Letter -->
+      <div class="love-letter-container" id="loveLetterContainer">
+        <div class="glass-card love-letter-card">
+          <p class="love-letter-text" id="loveLetterText"></p>
+          <p class="love-letter-signature" id="loveLetterSignature" style="display:none;"></p>
+        </div>
+      </div>
+
+      <!-- Replay / Save buttons -->
+      <div class="final-actions">
+        <button class="btn btn-secondary" id="replayBtn">Replay 🔁</button>
+        <button class="btn btn-ghost" id="saveBtn">Save this memory 📸</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scripts -->
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
